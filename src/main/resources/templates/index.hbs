@@ -1,5 +1,15 @@
 {{#partial "content"}}
     <h1>Posts</h1>
+
+    {{#if posts}}
+        <p>Current post:</p>
+        {{#each posts}}
+            <p>{{content}}</p>
+        {{/each}}
+    {{else}}
+        <p>No Posts!</p>
+    {{/if}}
+
     <p>Add new post:</p>
     <form action="/posts/new" method="POST">
         <label for="content">Post Description</label>
