@@ -25,7 +25,7 @@ public class Post {
         return instances;
     }
 
-    public static void clearAllposts(){
+    public static void clearAllposts() {
         instances.clear();
     }
 
