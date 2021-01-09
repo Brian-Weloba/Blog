@@ -14,6 +14,7 @@ public class PostTest {
 
     @After
     public void tearDown() {
+        Post.clearAllposts();
     }
 
     @Test
@@ -27,4 +28,20 @@ public class PostTest {
         Post post = new Post("Day 1: Intro");
         assertEquals("Day 1: Intro", post.getContent());
     }
+
+    @Test
+    public void AllPostsAreCorrectlyReturned_true() {
+        Post post = new Post("Day 1: Intro");
+        Post otherPost = new Post("How to pair successfully");
+        assertEquals(2, Post.getAll().size());
+    }
+
+    @Test
+    public void AllPostsContainAllPosts_true() {
+        Post post = new Post("Day 1: Intro");
+        Post otherPost = new Post("How to pair successfully");
+        assertTrue(Post.getAll().contains(post));
+        assertTrue(Post.getAll().contains(otherPost));
+    }
+
 }
