@@ -9,6 +9,7 @@ public class Post {
     private static ArrayList<Post> instances = new ArrayList<>();
     private boolean published;
     private LocalDateTime createdAt;
+    private int id;
 
 
     public Post(String content) {
@@ -16,6 +17,11 @@ public class Post {
         this.published = false;
         this.createdAt = LocalDateTime.now();
         instances.add(this);
+        this.id = instances.size();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getContent() {
