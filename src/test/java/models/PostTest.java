@@ -14,7 +14,7 @@ public class PostTest {
 
     @After
     public void tearDown() {
-        Post.clearAllposts();
+        Post.clearAllPosts();
     }
 
     @Test
@@ -47,7 +47,7 @@ public class PostTest {
     @Test
     public void getPublished_isFalseAfterInstantiation_false() throws Exception{
         Post post = new Post("Day 1: Intro");
-        assertFalse(myPost.getPublished());
+        assertFalse(post.isPublished());
     }
 
 }
