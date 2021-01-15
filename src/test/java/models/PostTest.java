@@ -44,4 +44,10 @@ public class PostTest {
         assertTrue(Post.getAll().contains(otherPost));
     }
 
+    @Test
+    public void getPublished_isFalseAfterInstantiation_false() throws Exception{
+        Post post = new Post("Day 1: Intro");
+        assertFalse(myPost.getPublished());
+    }
+
 }
