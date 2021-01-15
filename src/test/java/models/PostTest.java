@@ -14,7 +14,7 @@ public class PostTest {
 
     @After
     public void tearDown() {
-        Post.clearAllposts();
+        Post.clearAllPosts();
     }
 
     @Test
@@ -42,6 +42,12 @@ public class PostTest {
         Post otherPost = new Post("How to pair successfully");
         assertTrue(Post.getAll().contains(post));
         assertTrue(Post.getAll().contains(otherPost));
+    }
+
+    @Test
+    public void getPublished_isFalseAfterInstantiation_false() throws Exception{
+        Post post = new Post("Day 1: Intro");
+        assertFalse(post.isPublished());
     }
 
 }
