@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.*;
 
 public class PostTest {
@@ -25,20 +27,20 @@ public class PostTest {
 
     @Test
     public void Post_canInstantiateWithContent_true() {
-        Post post = new Post("Day 1: Intro");
+        Post post = setupNewPost();
         assertEquals("Day 1: Intro", post.getContent());
     }
 
     @Test
     public void AllPostsAreCorrectlyReturned_true() {
-        Post post = new Post("Day 1: Intro");
+        Post post = setupNewPost();
         Post otherPost = new Post("How to pair successfully");
         assertEquals(2, Post.getAll().size());
     }
 
     @Test
     public void AllPostsContainAllPosts_true() {
-        Post post = new Post("Day 1: Intro");
+        Post post = setupNewPost();
         Post otherPost = new Post("How to pair successfully");
         assertTrue(Post.getAll().contains(post));
         assertTrue(Post.getAll().contains(otherPost));
@@ -46,8 +48,18 @@ public class PostTest {
 
     @Test
     public void getPublished_isFalseAfterInstantiation_false() throws Exception{
-        Post post = new Post("Day 1: Intro");
+        Post post = setupNewPost();
         assertFalse(post.isPublished());
+    }
+
+    @Test
+    public void getCreatedAt_instantiatesWithCurrentTime_today() throws Exception{
+        Post myPost = setupNewPost(); //see below
+        assertEquals(LocalDateTime.now().getDayOfWeek(), myPost.getCreatedAt().getDayOfWeek());
+    }
+
+    public Post setupNewPost(){
+        return new Post("Day 1: Intro");
     }
 
 }
