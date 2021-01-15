@@ -1,13 +1,22 @@
 {{#partial "content"}}
 
-    <h1>Add a new Post!</h1>
+    {{#if editPost}}
+        <h1>Edit this Post!</h1>
+        <form action="/posts/{{editPost.id}}/update" method="post">
+            <label for="content">Edit this post's content</label>
+            <input id="content" name="content" type="text" value="{{editPost.content}}">
 
-    <form action="/posts/new" method="post">
-        <label for="content">Post Content</label>
-        <input id="content" name="content" type="text">
+    {{else}}
+            <h1>Add a new Post!</h1>
 
-        <button type="submit" class="btn btn-default">Add new blog post</button>
+        <form action="/posts/new" method="post">
+            <label for="content">Post Content</label>
+            <input id="content" name="content" type="text">
+
+    {{/if}}
+        <button type="submit" class="btn btn-default">Go!</button>
     </form>
+
 {{/partial}}
 
 {{> layout.hbs}}

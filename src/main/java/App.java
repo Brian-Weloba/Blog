@@ -35,12 +35,20 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/posts/:id", (request, response) -> {
-            Map < String, Object> model = new HashMap<>();
+            Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(request.params("id"));
             Post foundPost = Post.findById(idOfPostToFind);
             model.put("post", foundPost);
             return new ModelAndView(model, "post-detail.hbs");
-        },new HandlebarsTemplateEngine());
+        }, new HandlebarsTemplateEngine());
+
+        get("posts/:id/update", (request, response) -> {
+            Map<String, Object> model =new HashMap<>();
+            int idOfPostToEdit = Integer.parseInt(request.params("id"));
+            Post editPost = Post.findById(idOfPostToEdit);
+            model.put("editPost", editPost);
+            return new ModelAndView(model, "newpost-form.hbs");
+        }, new HandlebarsTemplateEngine());
 
     }
 }
