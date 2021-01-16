@@ -96,4 +96,12 @@ public class PostTest {
         assertNotEquals(formerContent, post.getContent());
     }
 
+    @Test
+    public void deleteDeletesACurrentPost() {
+        Post post = setupNewPost();
+        Post otherPost = new Post("How to pair successfully.");
+        post.deletePost();
+        assertEquals(1,post.getAll().size());
+        assertEquals(Post.getAll().get(0).getId(),1);
+    }
 }

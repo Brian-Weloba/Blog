@@ -56,4 +56,7 @@ public class Post {
         this.content=content;
     }
 
+    public void deletePost() {
+        instances.remove(id-1);
+    }
 }
