@@ -1,3 +1,4 @@
+import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
 import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
 import models.Post;
 import spark.ModelAndView;
@@ -16,7 +17,7 @@ public class App {
         //get: show new post form
         get("/posts/new", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            return new ModelAndView(model, "newpost-form.hbs");
+            return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
         post("/posts/new", (request, response) -> {
@@ -24,6 +25,15 @@ public class App {
             String content = request.queryParams("content");
             Post newPost = new Post(content);
             model.put("post", newPost);
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/posts/:id/update", (request, response) -> {
+            Map<String, Object> model= new HashMap<>();
+            String newContent = request.queryParams("content");
+            int idOfPost = Integer.parseInt(request.params("id"));
+            Post editPost = Post.findById(idOfPost);
+            editPost.update(newContent);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -35,12 +45,28 @@ public class App {
         }, new HandlebarsTemplateEngine());
 
         get("/posts/:id", (request, response) -> {
-            Map < String, Object> model = new HashMap<>();
+            Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(request.params("id"));
             Post foundPost = Post.findById(idOfPostToFind);
             model.put("post", foundPost);
             return new ModelAndView(model, "post-detail.hbs");
-        },new HandlebarsTemplateEngine());
+        }, new HandlebarsTemplateEngine());
+
+        get("posts/:id/update", (request, response) -> {
+            Map<String, Object> model =new HashMap<>();
+            int idOfPostToEdit = Integer.parseInt(request.params("id"));
+            Post editPost = Post.findById(idOfPostToEdit);
+            model.put("editPost", editPost);
+            return new ModelAndView(model, "post-form.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("posts/:id/delete", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToDelete = Integer.parseInt(request.params("id"));
+            Post deletePost = Post.findById(idOfPostToDelete);
+            deletePost.deletePost();
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
 
     }
 }
