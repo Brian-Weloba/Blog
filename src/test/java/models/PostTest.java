@@ -58,7 +58,7 @@ public class PostTest {
         assertEquals(LocalDateTime.now().getDayOfWeek(), myPost.getCreatedAt().getDayOfWeek());
     }
 
-    private Post setupNewPost(){
+    private Post setupNewPost() {
         return new Post("Day 1: Intro");
     }
 
@@ -83,7 +83,7 @@ public class PostTest {
     }
 
     @Test
-    public void updateChangesPostContent() throws Exception {
+    public void updateChangesPostContent() {
         Post post = setupNewPost();
         String formerContent = post.getContent();
         LocalDateTime formerDate = post.getCreatedAt();
@@ -101,7 +101,16 @@ public class PostTest {
         Post post = setupNewPost();
         Post otherPost = new Post("How to pair successfully.");
         post.deletePost();
-        assertEquals(1,post.getAll().size());
-        assertEquals(Post.getAll().get(0).getId(),1);
+        assertEquals(1, Post.getAll().size());
+        assertEquals(Post.getAll().get(0).getId(), 1);
+    }
+
+    @Test
+    public void deleteAllPostsDeletesAllPosts() {
+        Post post = setupNewPost();
+        Post otherPost = setupNewPost();
+
+        Post.clearAllPosts();
+        assertEquals(0, Post.getAll().size());
     }
 }
