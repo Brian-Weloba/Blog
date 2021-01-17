@@ -83,7 +83,7 @@ public class PostTest {
     }
 
     @Test
-    public void updateChangesPostContent() throws Exception {
+    public void updateChangesPostContent() {
         Post post = setupNewPost();
         String formerContent = post.getContent();
         LocalDateTime formerDate = post.getCreatedAt();
@@ -106,7 +106,7 @@ public class PostTest {
     }
 
     @Test
-    public void deleteAllPostsDeletesAllPosts() throws Exception {
+    public void deleteAllPostsDeletesAllPosts() {
         Post post = setupNewPost();
         Post otherPost = setupNewPost();
 
