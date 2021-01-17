@@ -5,17 +5,20 @@
         <form action="/posts/{{editPost.id}}/update" method="post">
             <label for="content">Edit this post's content</label>
             <input id="content" name="content" type="text" value="{{editPost.content}}">
+            <button type="submit" class="btn btn-default">Go!</button>
+        </form>
 
     {{else}}
-            <h1>Add a new Post!</h1>
+        <h1>Add a new Post!</h1>
 
         <form action="/posts/new" method="post">
             <label for="content">Post Content</label>
             <input id="content" name="content" type="text">
+            <button type="submit" class="btn btn-default">Go!</button>
+        </form>
 
     {{/if}}
-        <button type="submit" class="btn btn-default">Go!</button>
-    </form>
+
 
 {{/partial}}
 

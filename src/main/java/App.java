@@ -1,5 +1,3 @@
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
 import models.Post;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -20,50 +18,66 @@ public class App {
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/posts/new", (request, response) -> {
-            Map<String, Object> model = new HashMap<String, Object>();
-            String content = request.queryParams("content");
+        //post: process new post form
+        post("/posts/new", (req, res) -> { //URL to make new post on POST route
+            Map<String, Object> model = new HashMap<>();
+
+            String content = req.queryParams("content");
             Post newPost = new Post(content);
             model.put("post", newPost);
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/posts/:id/update", (request, response) -> {
-            Map<String, Object> model= new HashMap<>();
-            String newContent = request.queryParams("content");
-            int idOfPost = Integer.parseInt(request.params("id"));
-            Post editPost = Post.findById(idOfPost);
-            editPost.update(newContent);
-            return new ModelAndView(model, "success.hbs");
-        }, new HandlebarsTemplateEngine());
-
-        get("/", (request, response) -> {
-            Map<String, Object> model = new HashMap<String, Object>();
+        //get: show all posts
+        get("/", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
             ArrayList<Post> posts = Post.getAll();
             model.put("posts", posts);
+
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/posts/:id", (request, response) -> {
+        //get: delete all posts
+        get("/posts/delete", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            int idOfPostToFind = Integer.parseInt(request.params("id"));
-            Post foundPost = Post.findById(idOfPostToFind);
-            model.put("post", foundPost);
-            return new ModelAndView(model, "post-detail.hbs");
+            Post.clearAllPosts();
+            return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("posts/:id/update", (request, response) -> {
-            Map<String, Object> model =new HashMap<>();
-            int idOfPostToEdit = Integer.parseInt(request.params("id"));
+        //get: show an individual post
+        get("/posts/:id", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToFind = Integer.parseInt(req.params("id")); //pull id - must match route segment
+            Post foundPost = Post.findById(idOfPostToFind); //use it to find post
+            model.put("post", foundPost); //add it to model for template to display
+            return new ModelAndView(model, "post-detail.hbs"); //individual post page.
+        }, new HandlebarsTemplateEngine());
+
+        //get: show a form to update a post
+        get("/posts/:id/update", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToEdit = Integer.parseInt(req.params("id"));
             Post editPost = Post.findById(idOfPostToEdit);
             model.put("editPost", editPost);
             return new ModelAndView(model, "post-form.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("posts/:id/delete", (request, response) -> {
+        //post: process a form to update a post
+        post("/posts/:id/update", (req, res) -> { //URL to make new post on POST route
             Map<String, Object> model = new HashMap<>();
-            int idOfPostToDelete = Integer.parseInt(request.params("id"));
-            Post deletePost = Post.findById(idOfPostToDelete);
+            String newContent = req.queryParams("content");
+            int idOfPostToEdit = Integer.parseInt(req.params("id"));
+            Post editPost = Post.findById(idOfPostToEdit);
+            editPost.update(newContent);
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        //get: delete an individual post
+        get("/posts/:id/delete", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToDelete = Integer.parseInt(req.params("id")); //pull id - must match route segment
+            Post deletePost = Post.findById(idOfPostToDelete); //use it to find post
             deletePost.deletePost();
             return new ModelAndView(model, "success.hbs");
         }, new HandlebarsTemplateEngine());
